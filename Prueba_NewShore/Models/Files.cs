@@ -43,6 +43,11 @@ namespace Prueba_NewShore.Models
             }
         }
 
-        
+        private Array GetArrayFromContentFile(string contentFile)
+        {
+            var content = contentFile.Split('\n');
+
+            return content;
+        }
     }
 }
