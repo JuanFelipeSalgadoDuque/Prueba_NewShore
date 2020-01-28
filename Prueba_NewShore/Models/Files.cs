@@ -81,8 +81,8 @@ namespace Prueba_NewShore.Models
             try
             {
                 //route = @"C:\Users\SALGADO\Desktop\RESULTADOS.txt";
-                string route = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)+"\\RESULTADOS.txt";
-                
+                string route = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\RESULTADOS.txt";
+
                 using (StreamWriter result = File.CreateText(route))//create the file
                 {
                     foreach (string line in namesInContent)
@@ -140,5 +140,6 @@ namespace Prueba_NewShore.Models
             }
             return namesInContent;
         }
+
     }
 }
