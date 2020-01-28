@@ -18,7 +18,8 @@ namespace Prueba_NewShore.Controllers
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase content, HttpPostedFileBase registered)
         {
-            
+            var result = new Files();
+            result.Result(content, registered);
             
             return View();
         }
