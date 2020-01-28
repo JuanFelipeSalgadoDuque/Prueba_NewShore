@@ -1,6 +1,7 @@
-﻿using Prueba_NewShore.Models;
+﻿using log4net;
+using log4net.Repository.Hierarchy;
+using Prueba_NewShore.Models;
 using System;
-using System.IO;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,6 +9,8 @@ namespace Prueba_NewShore.Controllers
 {
     public class FileController : Controller
     {
+        private static readonly ILog _Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod()
+                                            .DeclaringType);
 
         // GET: File
         public ActionResult Index()
@@ -18,9 +21,17 @@ namespace Prueba_NewShore.Controllers
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase content, HttpPostedFileBase registered)
         {
-            var result = new Files();
-            result.Result(content, registered);
-            
+            try
+            {
+                var result = new Files(_Log);
+                result.Result(content, registered);
+                ViewBag.route = "RESULTADOS.txt file has been created in the Desktop ";
+            }
+            catch(Exception ex)
+            {
+                _Log.Error("There was an error: " + ex.Message);
+                return View();
+            }
             return View();
         }
     }

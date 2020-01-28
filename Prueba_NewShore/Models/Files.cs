@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,28 +10,39 @@ namespace Prueba_NewShore.Models
 {
     public class Files : IFile
     {
-        private string ContentString { get; set; }
-        private string RegisteredString { get; set; }
         private string[] ArrayContent { get; set; }
         private string[] ArrayRegistered { get; set; }
 
+        private readonly ILog _log;
+
+        public Files(ILog log)
+        {
+            _log = log;
+        }
+
         public void Result(HttpPostedFileBase file1, HttpPostedFileBase file2)
         {
-            //private method for validate files
-            //get the file string
-            var contentString = ValidateFile(file1);
-            var registeredString = ValidateFile(file2);
+            try
+            {
+                //private method for validate files
+                //get the file string
+                var contentString = ValidateFile(file1);
+                var registeredString = ValidateFile(file2);
 
-            //convert strings into arrays to be manipulated
-            ArrayContent = Regex.Split(contentString, "\r\n");
-            ArrayRegistered = Regex.Split(registeredString, "\r\n");
+                //convert strings into arrays to be manipulated
+                ArrayContent = Regex.Split(contentString, "\r\n");
+                ArrayRegistered = Regex.Split(registeredString, "\r\n");
 
-            //find names contents in file CONTENIDO.txt
-            var namesInContentFIle = FindNames(ArrayContent, ArrayRegistered);
+                //find names contents in file CONTENIDO.txt
+                var namesInContentFIle = FindNames(ArrayContent, ArrayRegistered);
 
-            //make a file with result
-            var responseOfFile = CreateFile(namesInContentFIle);
-
+                //make a file with result
+                var responseOfFile = CreateFile(namesInContentFIle);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error in Result() in class Files: " + ex.Message);
+            }
         }
 
 
@@ -42,6 +54,7 @@ namespace Prueba_NewShore.Models
 
             if (!FileExtension[1].Equals("txt"))
             {
+                _log.Info("In ValidatingFile() in Files Class the extension of a File is wrong");
                 return "There was an error : Only file type with extension .txt is allowed";
             }
 
@@ -53,51 +66,23 @@ namespace Prueba_NewShore.Models
             }
             catch (FileNotFoundException ex)
             {
+                _log.Error("Error in ValidatingFile() in class Files: " + ex.Message);
                 return "There was an error  : " + ex.Message;
             }
             catch (Exception ex)
             {
+                _log.Error("Error in ValidatingFile() in class Files: " + ex.Message);
                 return "There was an error  : " + ex.Message;
             }
         }
-
-        //private List<string> FindNames(string[] content, string[] registered)
-        //{
-        //    var contentList = content.ToList();
-        //    List<string> nameInList = new List<string>();
-        //    List<string> namesInContent = new List<string>();
-
-        //    foreach (var name in registered)
-        //    {
-        //        foreach (var letter in new List<string>(contentList))
-        //        {
-        //            if (name.Contains(letter))
-        //            {
-        //                nameInList.Add(letter);
-        //                contentList.Remove(letter);
-        //            }
-        //            if (name.Length == nameInList.Count())
-        //            {
-        //                namesInContent.Add(name + " ---> Exist");
-        //                nameInList.Clear();
-        //                break;
-        //            }
-        //        }
-        //        /*if (name.Length != nameInList.Count())
-        //        {
-        //            namesInContent.Add(name + " --->Does not Exist");
-        //            nameInList.Clear();
-        //        }*/
-        //    }
-        //    return namesInContent;
-        //}
 
         private string CreateFile(List<string> namesInContent)
         {
             try
             {
-                string route = @"C:\Users\SALGADO\Desktop\RESULTADOS.txt";
-
+                //route = @"C:\Users\SALGADO\Desktop\RESULTADOS.txt";
+                string route = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)+"\\RESULTADOS.txt";
+                
                 using (StreamWriter result = File.CreateText(route))//create the file
                 {
                     foreach (string line in namesInContent)
@@ -106,12 +91,14 @@ namespace Prueba_NewShore.Models
                     }
                     result.Flush();
                     result.Close();
+                    _log.Info("File RESULTADOS.txt saving correctly");
                     return "File saving correctly";
                 }
 
             }
             catch (Exception ex)
             {
+                _log.Debug("Error saving file (CreateFile() in Files Class): " + ex.Message);
                 return "Error saving file" + ex.Message;
             }
         }
