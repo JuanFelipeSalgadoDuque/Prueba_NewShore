@@ -61,36 +61,36 @@ namespace Prueba_NewShore.Models
             }
         }
 
-        private List<string> FindNames(string[] content, string[] registered)
-        {
-            var contentList = content.ToList();
-            List<string> nameInList = new List<string>();
-            List<string> namesInContent = new List<string>();
+        //private List<string> FindNames(string[] content, string[] registered)
+        //{
+        //    var contentList = content.ToList();
+        //    List<string> nameInList = new List<string>();
+        //    List<string> namesInContent = new List<string>();
 
-            foreach (var name in registered)
-            {
-                foreach (var letter in new List<string>(contentList))
-                {
-                    if (name.Contains(letter))
-                    {
-                        nameInList.Add(letter);
-                        contentList.Remove(letter);
-                    }
-                    if (name.Length == nameInList.Count())
-                    {
-                        namesInContent.Add(name + " ---> Exist");
-                        nameInList.Clear();
-                        break;
-                    }
-                }
-                /*if (name.Length != nameInList.Count())
-                {
-                    namesInContent.Add(name + " --->Does not Exist");
-                    nameInList.Clear();
-                }*/
-            }
-            return namesInContent;
-        }
+        //    foreach (var name in registered)
+        //    {
+        //        foreach (var letter in new List<string>(contentList))
+        //        {
+        //            if (name.Contains(letter))
+        //            {
+        //                nameInList.Add(letter);
+        //                contentList.Remove(letter);
+        //            }
+        //            if (name.Length == nameInList.Count())
+        //            {
+        //                namesInContent.Add(name + " ---> Exist");
+        //                nameInList.Clear();
+        //                break;
+        //            }
+        //        }
+        //        /*if (name.Length != nameInList.Count())
+        //        {
+        //            namesInContent.Add(name + " --->Does not Exist");
+        //            nameInList.Clear();
+        //        }*/
+        //    }
+        //    return namesInContent;
+        //}
 
         private string CreateFile(List<string> namesInContent)
         {
@@ -108,12 +108,50 @@ namespace Prueba_NewShore.Models
                     result.Close();
                     return "File saving correctly";
                 }
-                
+
             }
             catch (Exception ex)
             {
                 return "Error saving file" + ex.Message;
             }
+        }
+
+        private List<string> FindNames(string[] content, string[] registered)
+        {
+            var contentList = content.ToList(); //convert string[] content into List
+            List<string> nameInList = new List<string>();
+            List<string> namesInContent = new List<string>();
+
+            foreach (var name in registered)
+            {
+                char[] nameChar = name.ToCharArray();//converts name into to char[]
+
+                foreach (var charac in nameChar)
+                {
+                    string findChar = contentList.FirstOrDefault(x => x.Equals(charac.ToString()));
+                    if (findChar != null)
+                    {
+                        nameInList.Add(findChar);
+                        contentList.Remove(findChar);
+                    }
+                }
+
+                if (name.Length == nameInList.Count())
+                {
+                    namesInContent.Add(name + " ---> Exist");
+                    nameInList.Clear();
+                }
+                else
+                {
+                    namesInContent.Add(name + " ---> Does not Exist");
+                    nameInList.Clear();
+                }
+                if (name == registered.Last())
+                {
+                    break;
+                }
+            }
+            return namesInContent;
         }
     }
 }
