@@ -174,7 +174,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Business\" />
-    <Folder Include="Result_File\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

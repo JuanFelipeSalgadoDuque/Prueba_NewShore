@@ -20,6 +20,11 @@ namespace Prueba_NewShore.Models
             _log = log;
         }
 
+        public Files()
+        {
+            //constructor for test
+        }
+
         public void Result(HttpPostedFileBase file1, HttpPostedFileBase file2)
         {
             try
@@ -47,14 +52,14 @@ namespace Prueba_NewShore.Models
 
 
         //Receive a file and verify if it is valid and return a String with the contents of the file
-        private string ValidateFile(HttpPostedFileBase file)
+        internal string ValidateFile(HttpPostedFileBase file)
         {
             string FileName = file.FileName; //get file name
             string[] FileExtension = FileName.Split('.'); //get file extension
 
             if (!FileExtension[1].Equals("txt"))
             {
-                _log.Info("In ValidatingFile() in Files Class the extension of a File is wrong");
+                _log.Error("In ValidatingFile() in Files Class the extension of a File is wrong");
                 return "There was an error : Only file type with extension .txt is allowed";
             }
 
@@ -76,10 +81,14 @@ namespace Prueba_NewShore.Models
             }
         }
 
-        private string CreateFile(List<string> namesInContent)
+        internal string CreateFile(List<string> namesInContent)
         {
             try
             {
+                if (namesInContent.Count() == 0 || namesInContent == null)
+                {
+                    throw new Exception();
+                }
                 //route = @"C:\Users\SALGADO\Desktop\RESULTADOS.txt";
                 string route = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\RESULTADOS.txt";
 
@@ -103,8 +112,13 @@ namespace Prueba_NewShore.Models
             }
         }
 
-        private List<string> FindNames(string[] content, string[] registered)
+        internal List<string> FindNames(string[] content, string[] registered)
         {
+            if (content.Length == 0 || registered.Length == 0)
+            {
+                _log.Error("One of the parameters in FindNames() is incorrect");
+                return null;
+            }
             var contentList = content.ToList(); //convert string[] content into List
             List<string> nameInList = new List<string>();
             List<string> namesInContent = new List<string>();

@@ -1,5 +1,4 @@
 ﻿using log4net;
-using log4net.Repository.Hierarchy;
 using Prueba_NewShore.Models;
 using System;
 using System.Web;
