@@ -1,7 +1,6 @@
 ﻿using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prueba_NewShore.Models;
-using System;
 using System.Web;
 using System.Collections.Generic;
 using System.Reflection;
@@ -24,7 +23,7 @@ namespace UnitTestProject
             list.Add("CARLOS");
             list.Add("FELIPE");
             list.Add("MARIA");
-            Files instance = new Files(_Log);
+            FileManagement instance = new FileManagement(_Log);
             var privateTest = new PrivateObject(instance);
 
             //act
@@ -39,7 +38,7 @@ namespace UnitTestProject
         public void ValidateFile_With_WrongExtension_ReturnErrorMessage()
         {
             //init
-            Files instance = new Files(_Log);
+            FileManagement instance = new FileManagement(_Log);
             var constructorInfo = typeof(HttpPostedFile).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
             var file = (HttpPostedFile)constructorInfo
                       .Invoke(new object[] { "filename.jpg", "image/jpeg", null });
@@ -55,7 +54,7 @@ namespace UnitTestProject
         public void FindNames_With_OkParameters_ReturnList()
         {
             //init
-            Files instance = new Files(_Log);
+            FileManagement instance = new FileManagement(_Log);
             string[] content = {"C", "R", "P", "A","P", "I", "E" };
             string[] registered = {"CARLOS", "PIPE" };
             var namesInContent = new List<string>();
@@ -73,7 +72,7 @@ namespace UnitTestProject
         public void FindNames_With_WrongParameters_ReturnNull()
         {
             //init
-            Files instance = new Files(_Log);
+            FileManagement instance = new FileManagement(_Log);
             string[] content = { "C", "R", "P", "A", "P", "I", "E" };
             string[] registered = new string[0]; //empty array
 

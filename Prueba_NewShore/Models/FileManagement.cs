@@ -8,24 +8,24 @@ using System.Web;
 
 namespace Prueba_NewShore.Models
 {
-    public class Files : IFile
+    public class FileManagement : IFile
     {
         private string[] ArrayContent { get; set; }
         private string[] ArrayRegistered { get; set; }
 
         private readonly ILog _log;
 
-        public Files(ILog log)
+        public FileManagement(ILog log)
         {
             _log = log;
         }
 
-        public Files()
+        public FileManagement()
         {
             //constructor for test
         }
 
-        public void Result(HttpPostedFileBase file1, HttpPostedFileBase file2)
+        public void GetCustomers(HttpPostedFileBase file1, HttpPostedFileBase file2)
         {
             try
             {

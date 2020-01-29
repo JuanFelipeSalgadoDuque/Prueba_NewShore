@@ -22,8 +22,8 @@ namespace Prueba_NewShore.Controllers
         {
             try
             {
-                var result = new Files(_Log);
-                result.Result(content, registered);
+                var result = new FileManagement(_Log);
+                result.GetCustomers(content, registered);
                 ViewBag.route = "RESULTADOS.txt file has been created in the Desktop ";
             }
             catch(Exception ex)
