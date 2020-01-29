@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "d159882d-e0e4-469c-b966-bce0f491d47f",
+		"name": "Integration_Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "integration test for File Controller",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"type": "file",
+							"src": "/C:/workspaces/Prueba_NewShore/TEST/CONTENIDO.txt"
+						},
+						{
+							"key": "registered",
+							"type": "file",
+							"src": "/C:/workspaces/Prueba_NewShore/TEST/REGISTRADOS.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:44312/File",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44312",
+					"path": [
+						"File"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
