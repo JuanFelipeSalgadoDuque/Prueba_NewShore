@@ -5,3 +5,5 @@
 3. El archivo de LOGS está configurado para almacenarse en la ruta "C:\logs\PruebaNewShoreLog.log"
 
 4. El item de la prueba para Crear y consumir un servicio web WCF (REST / SOAP) no fue resuelto ya que por desconocimiento del tema.
+
+5. Los métodos en la clase FileManagement que están declarados con el modificador de acceso internal, en un principio estaban como private pero se han cambiados con el proposito de que fueran accesibles desde los test unitarios.
